@@ -26,7 +26,7 @@ The project currently features a modern admin dashboard for managing products, c
 | Backend | Node.js, Express 5 |
 | Database | MariaDB |
 | Authentication | Scrypt password hashing, database-backed sessions |
-| Deployment | Heroku (planned) |
+| Deployment | Heroku |
 | Version Control | Git and GitHub |
 
 ## Project Structure
