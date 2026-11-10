@@ -26,6 +26,8 @@ import {
   LockKeyhole,
   Eye,
   EyeOff,
+  Sun,
+  Moon,
 } from "lucide-react";
 
 const API_URL =
@@ -232,7 +234,7 @@ async function readResponse(response) {
 // LOGIN PAGE
 // ==================================================
 
-function LoginPage({ onLogin }) {
+function LoginPage({ onLogin, theme, onToggleTheme }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -274,11 +276,29 @@ function LoginPage({ onLogin }) {
   }
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-black px-5 py-12 text-white">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-1/3 h-112.5 w-112.5 -translate-x-1/2 rounded-full bg-cyan-400/10 blur-[130px]" />
-        <div className="absolute -bottom-40 -right-32 h-87.5 w-87.5 rounded-full bg-cyan-400/5 blur-[110px]" />
-      </div>
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-5 py-12 text-white">
+      <AmbientBackground />
+      <button
+        type="button"
+        onClick={onToggleTheme}
+        className="theme-toggle absolute right-5 top-5 z-20"
+        aria-label={
+          theme === "dark"
+            ? "Switch to light mode"
+            : "Switch to dark mode"
+        }
+        title={
+          theme === "dark"
+            ? "Light mode"
+            : "Dark mode"
+        }
+      >
+        {theme === "dark" ? (
+          <Sun size={20} />
+        ) : (
+          <Moon size={20} />
+        )}
+      </button>
 
       <div className="relative w-full max-w-md">
         <div className="mb-9 text-center">
@@ -477,8 +497,8 @@ function NavButton({
       type="button"
       onClick={onClick}
       className={`group flex w-full items-center justify-between rounded-xl border px-3 py-3 text-left text-sm transition-all duration-200 ${active
-          ? "border-cyan-400/30 bg-cyan-400/10 text-[#00F5FF] shadow-[0_0_25px_rgba(0,245,255,0.08)]"
-          : "border-transparent text-[#8AA5AA] hover:border-cyan-400/10 hover:bg-cyan-400/5 hover:text-white"
+        ? "border-cyan-400/30 bg-cyan-400/10 text-[#00F5FF] shadow-[0_0_25px_rgba(0,245,255,0.08)]"
+        : "border-transparent text-[#8AA5AA] hover:border-cyan-400/10 hover:bg-cyan-400/5 hover:text-white"
         }`}
     >
       <span className="flex items-center gap-3">
@@ -496,8 +516,8 @@ function NavButton({
       {count !== undefined && (
         <span
           className={`rounded-md px-2 py-0.5 text-xs ${active
-              ? "bg-cyan-400/10 text-[#00F5FF]"
-              : "bg-white/5 text-[#78969B]"
+            ? "bg-cyan-400/10 text-[#00F5FF]"
+            : "bg-white/5 text-[#78969B]"
             }`}
         >
           {count}
@@ -764,10 +784,58 @@ function RecordModal({
 }
 
 // ==================================================
+// BACKROUND
+// ==================================================
+
+function AmbientBackground() {
+  return (
+    <div className="pcstore-ambient" aria-hidden="true">
+      <div className="pcstore-ambient-grid" />
+      <div className="pcstore-orb pcstore-orb-one" />
+      <div className="pcstore-orb pcstore-orb-two" />
+      <div className="pcstore-ambient-ring" />
+    </div>
+  );
+}
+
+// ==================================================
 // MAIN APPLICATION
 // ==================================================
 
 function App() {
+  const [theme, setTheme] = useState(() => {
+    try {
+      return localStorage.getItem("pcstore-theme") === "light"
+        ? "light"
+        : "dark";
+    } catch {
+      return "dark";
+    }
+  });
+
+  useEffect(() => {
+    document.documentElement.classList.toggle(
+      "dark",
+      theme === "dark"
+    );
+
+    document.documentElement.classList.toggle(
+      "light",
+      theme === "light"
+    );
+
+    try {
+      localStorage.setItem("pcstore-theme", theme);
+    } catch {
+      // Continue even if browser storage is unavailable.
+    }
+  }, [theme]);
+
+  function toggleTheme() {
+    setTheme((previous) =>
+      previous === "dark" ? "light" : "dark"
+    );
+  }
   // Authentication
   const [admin, setAdmin] = useState(null);
   const [checkingSession, setCheckingSession] =
@@ -1064,7 +1132,11 @@ function App() {
 
   if (!admin) {
     return (
-      <LoginPage onLogin={setAdmin} />
+      <LoginPage
+        onLogin={setAdmin}
+        theme={theme}
+        onToggleTheme={toggleTheme}
+      />
     );
   }
 
@@ -1073,18 +1145,14 @@ function App() {
   // ==================================================
 
   return (
-    <div className="relative flex min-h-screen bg-black text-white">
-      {/* Ambient cyan background lighting */}
-      <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="absolute -right-48 -top-48 h-137.5 w-137.5 rounded-full bg-cyan-400/5.5 blur-[120px]" />
-        <div className="absolute -bottom-48 left-1/4 h-112.5 w-112.5 rounded-full bg-cyan-400/[0.035] blur-[120px]" />
-      </div>
+    <div className="relative flex min-h-screen text-white">
+      <AmbientBackground />
 
       {/* Sidebar */}
       <aside
         className={`fixed inset-y-0 left-0 z-30 flex w-72 flex-col border-r border-cyan-400/10 bg-black/90 backdrop-blur-2xl transition-transform duration-300 lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 ${mobileMenu
-            ? "translate-x-0"
-            : "-translate-x-full"
+          ? "translate-x-0"
+          : "-translate-x-full"
           }`}
       >
         <div className="flex h-24 shrink-0 items-center justify-between border-b border-cyan-400/10 px-6">
@@ -1147,8 +1215,8 @@ function App() {
             <div className="flex items-center gap-2">
               <span
                 className={`h-2 w-2 rounded-full ${error
-                    ? "bg-rose-400"
-                    : "bg-[#00F5FF] shadow-[0_0_12px_#00F5FF]"
+                  ? "bg-rose-400"
+                  : "bg-[#00F5FF] shadow-[0_0_12px_#00F5FF]"
                   }`}
               />
 
@@ -1193,6 +1261,29 @@ function App() {
           </div>
 
           <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="theme-toggle"
+              aria-label={
+                theme === "dark"
+                  ? "Switch to light mode"
+                  : "Switch to dark mode"
+              }
+              title={
+                theme === "dark"
+                  ? "Light mode"
+                  : "Dark mode"
+              }
+              aria-pressed={theme === "light"}
+            >
+              {theme === "dark" ? (
+                <Sun size={20} />
+              ) : (
+                <Moon size={20} />
+              )}
+            </button>
+
             <div className="hidden items-center gap-2 rounded-full border border-cyan-400/15 bg-cyan-400/5 px-3 py-2 text-xs text-[#9ED3D8] md:flex">
               <Activity
                 size={14}
@@ -1345,7 +1436,7 @@ function App() {
                         onClick={() =>
                           navigate(section.id)
                         }
-                        className="group flex w-full items-center justify-between rounded-2xl border border-cyan-400/10 bg-black/30 p-4 text-left transition-all duration-200 hover:border-cyan-400/35 hover:bg-cyan-400/10 hover:shadow-[0_0_20px_rgba(0,245,255,0.06)]"
+                        className="pcstore-glass-row group flex w-full items-center justify-between rounded-2xl p-4 text-left"
                       >
                         <span className="flex items-center gap-3">
                           <span className="rounded-xl border border-cyan-400/15 bg-cyan-400/5 p-2.5 text-[#00F5FF]">
@@ -1430,7 +1521,7 @@ function App() {
                     </p>
                   </div>
 
-                  <div className="rounded-3xl border border-cyan-400/15 bg-linear-to-br from-cyan-400/10 to-transparent p-7">
+                  <div className="liquid-glass rounded-3xl p-7">
                     <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#00F5FF]">
                       System
                     </p>
@@ -1651,13 +1742,13 @@ function App() {
       {modal && (
         <RecordModal
           key={`${modal.table}-${modal.record
-              ? modal.record[
-              sections.find(
-                (section) =>
-                  section.id === modal.table
-              ).columns[0][0]
-              ]
-              : "new"
+            ? modal.record[
+            sections.find(
+              (section) =>
+                section.id === modal.table
+            ).columns[0][0]
+            ]
+            : "new"
             }`}
           table={modal.table}
           record={modal.record}

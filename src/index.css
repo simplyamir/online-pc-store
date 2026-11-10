@@ -1,45 +1,248 @@
 @import "tailwindcss";
 
-:root {
+/* Tailwind CSS 4 — class-based dark mode */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ==================================================
+   PCSTORE — DARK THEME (DEFAULT)
+   ================================================== */
+
+:root,
+:root.dark {
+    color-scheme: dark;
+
+    --page-bg: #000000;
+    --surface: rgba(0, 245, 255, 0.035);
+    --surface-strong: rgba(0, 0, 0, 0.85);
+    --surface-hover: rgba(0, 245, 255, 0.10);
+
+    --text-primary: #ffffff;
+    --text-secondary: #a8c7cc;
+    --text-muted: #789da3;
+
+    --accent: #00f5ff;
+    --accent-hover: #73fbff;
+    --accent-text: #001518;
+
+    --border: rgba(0, 245, 255, 0.18);
+    --border-subtle: rgba(0, 245, 255, 0.10);
+
+    --input-bg: rgba(0, 245, 255, 0.035);
+    --input-placeholder: #638b90;
+
+    --header-bg: rgba(0, 0, 0, 0.46);
+    --sidebar-bg: rgba(0, 0, 0, 0.58);
+
+    --table-header: rgba(0, 245, 255, 0.055);
+    --table-hover: rgba(0, 245, 255, 0.055);
+
+    --ambient-grid: rgba(0, 245, 255, 0.075);
+    --ambient-line: rgba(0, 245, 255, 0.13);
+    --ambient-orb-1: rgba(0, 245, 255, 0.24);
+    --ambient-orb-2: rgba(0, 100, 255, 0.17);
+
+    --glass-card-bg: rgba(3, 23, 33, 0.3);
+    --glass-row-bg: rgba(3, 19, 30, 0.22);
+    --glass-card-border: rgba(0, 245, 255, 0.22);
+    --glass-shine: rgba(255, 255, 255, 0.13);
+    --glass-shadow-color: rgba(0, 245, 255, 0.055);
+
     font-family: Inter, system-ui, sans-serif;
-    color: #ffffff;
-    background: #000000;
+    color: var(--text-primary);
+    background: var(--page-bg);
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
+}
+
+/* ==================================================
+   PCSTORE — LIGHT THEME
+   ================================================== */
+
+:root.light {
+    color-scheme: light;
+
+    --page-bg: #f4f8fc;
+    --surface: rgba(255, 255, 255, 0.60);
+    --surface-strong: rgba(255, 255, 255, 0.90);
+    --surface-hover: rgba(8, 145, 178, 0.07);
+
+    --text-primary: #102333;
+    --text-secondary: #405b6b;
+    --text-muted: #627b89;
+
+    --accent: #087e99;
+    --accent-hover: #0a93ad;
+    --accent-text: #ffffff;
+
+    --border: rgba(8, 126, 153, 0.20);
+    --border-subtle: rgba(8, 126, 153, 0.12);
+
+    --input-bg: rgba(255, 255, 255, 0.75);
+    --input-placeholder: #8298a5;
+
+    --header-bg: rgba(255, 255, 255, 0.56);
+    --sidebar-bg: rgba(255, 255, 255, 0.62);
+
+    --table-header: rgba(8, 126, 153, 0.065);
+    --table-hover: rgba(8, 126, 153, 0.045);
+
+    --ambient-grid: rgba(8, 126, 153, 0.11);
+    --ambient-line: rgba(8, 126, 153, 0.15);
+    --ambient-orb-1: rgba(0, 180, 220, 0.20);
+    --ambient-orb-2: rgba(65, 125, 255, 0.14);
+
+    --glass-card-bg: rgba(255, 255, 255, 0.38);
+    --glass-row-bg: rgba(255, 255, 255, 0.27);
+    --glass-card-border: rgba(255, 255, 255, 0.82);
+    --glass-shine: rgba(255, 255, 255, 0.90);
+    --glass-shadow-color: rgba(22, 104, 148, 0.09);
+}
+
+/* ==================================================
+   GLOBAL STYLES
+   ================================================== */
+
+html {
+    min-width: 320px;
+    min-height: 100%;
+    background: var(--page-bg);
 }
 
 body {
     margin: 0;
     min-width: 320px;
     min-height: 100vh;
-    background: #000000;
+    background: var(--page-bg);
+    color: var(--text-primary);
 }
 
-/* Liquid glass surfaces */
+#root {
+    min-height: 100vh;
+}
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: not-allowed;
+}
+
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
+::selection {
+    background: var(--accent);
+    color: var(--accent-text);
+}
+
+/* ==================================================
+   UNIFIED LIQUID GLASS
+   Used by cards, panels, login and modals
+   ================================================== */
+
 .liquid-glass {
-    background: linear-gradient(135deg,
-            rgba(0, 245, 255, 0.09),
-            rgba(0, 245, 255, 0.025) 45%,
-            rgba(255, 255, 255, 0.015));
-    backdrop-filter: blur(24px) saturate(150%);
-    -webkit-backdrop-filter: blur(24px) saturate(150%);
-    border: 1px solid rgba(0, 245, 255, 0.18);
+    position: relative;
+
+    background: var(--glass-card-bg);
+    border: 1px solid var(--glass-card-border);
+    color: var(--text-primary);
+
+    backdrop-filter: blur(28px) saturate(170%);
+    -webkit-backdrop-filter: blur(28px) saturate(170%);
+
     box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.12),
-        0 12px 36px rgba(0, 0, 0, 0.35);
+        inset 0 1px 0 var(--glass-shine),
+        0 12px 36px rgba(0, 0, 0, 0.12),
+        0 0 32px var(--glass-shadow-color);
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
 }
 
-/* Cyan glowing buttons */
+/* Light reflection across the glass surface */
+.liquid-glass::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+
+    background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.085),
+            transparent 42%,
+            rgba(0, 245, 255, 0.025));
+}
+
+/* Preserve existing positioned content and decorations */
+.liquid-glass:hover {
+    border-color: rgba(0, 245, 255, 0.42);
+
+    box-shadow:
+        inset 0 1px 0 var(--glass-shine),
+        0 18px 45px rgba(0, 0, 0, 0.15),
+        0 0 36px var(--glass-shadow-color);
+}
+
+.light .liquid-glass:hover {
+    border-color: rgba(8, 126, 153, 0.38);
+}
+
+/* ==================================================
+   QUICK ACCESS — GLASS ROWS
+   ================================================== */
+
+.pcstore-glass-row {
+    background: var(--glass-row-bg);
+    border: 1px solid var(--border-subtle);
+
+    backdrop-filter: blur(14px) saturate(145%);
+    -webkit-backdrop-filter: blur(14px) saturate(145%);
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.pcstore-glass-row:hover {
+    background: var(--surface-hover);
+    border-color: var(--accent);
+    transform: translateX(3px);
+
+    box-shadow:
+        0 0 22px var(--glass-shadow-color);
+}
+
+/* ==================================================
+   PRIMARY CYAN BUTTON
+   ================================================== */
+
 .btn-cyan {
-    background: #00f5ff;
-    color: #001518;
+    background: var(--accent);
+    color: var(--accent-text);
     font-weight: 700;
+
     border: 1px solid rgba(255, 255, 255, 0.4);
+
     box-shadow:
         0 0 12px rgba(0, 245, 255, 0.3),
         0 0 28px rgba(0, 245, 255, 0.12),
         inset 0 1px 0 rgba(255, 255, 255, 0.6);
+
     transition:
         transform 0.2s ease,
         box-shadow 0.2s ease,
@@ -47,11 +250,12 @@ body {
 }
 
 .btn-cyan:hover:not(:disabled) {
-    background: #73fbff;
+    background: var(--accent-hover);
     transform: translateY(-2px);
+
     box-shadow:
-        0 0 18px rgba(0, 245, 255, 0.65),
-        0 0 42px rgba(0, 245, 255, 0.3);
+        0 0 18px rgba(0, 245, 255, 0.40),
+        0 0 42px rgba(0, 245, 255, 0.15);
 }
 
 .btn-cyan:active:not(:disabled) {
@@ -60,52 +264,510 @@ body {
 
 .btn-cyan:disabled {
     opacity: 0.5;
-    cursor: not-allowed;
 }
 
-/* Glass-style secondary buttons */
+/* ==================================================
+   SECONDARY GLASS BUTTON
+   ================================================== */
+
 .btn-glass {
-    background: rgba(0, 245, 255, 0.05);
-    color: #a5fbff;
-    border: 1px solid rgba(0, 245, 255, 0.22);
+    background: var(--surface);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+
     backdrop-filter: blur(12px);
-    transition: all 0.2s ease;
+    -webkit-backdrop-filter: blur(12px);
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .btn-glass:hover:not(:disabled) {
-    background: rgba(0, 245, 255, 0.13);
-    border-color: rgba(0, 245, 255, 0.65);
-    box-shadow: 0 0 22px rgba(0, 245, 255, 0.18);
+    background: var(--surface-hover);
+    border-color: var(--accent);
+    color: var(--accent);
+
+    box-shadow:
+        0 0 22px rgba(0, 245, 255, 0.10);
 }
 
-/* Glowing text */
+/* ==================================================
+   CYAN GLOW TEXT
+   ================================================== */
+
 .text-cyan-glow {
-    color: #00f5ff;
+    color: var(--accent);
     text-shadow: 0 0 18px rgba(0, 245, 255, 0.35);
 }
 
-/* Inputs */
+.light .text-cyan-glow {
+    text-shadow: none;
+}
+
+/* ==================================================
+   FORM INPUTS
+   ================================================== */
+
 .glass-input {
-    background: rgba(0, 245, 255, 0.035);
-    border: 1px solid rgba(0, 245, 255, 0.18);
-    color: white;
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+
     outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
+
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
 }
 
 .glass-input:focus {
-    border-color: #00f5ff;
-    box-shadow: 0 0 0 3px rgba(0, 245, 255, 0.12);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(8, 126, 153, 0.12);
 }
 
 .glass-input::placeholder {
-    color: #638b90;
+    color: var(--input-placeholder);
 }
 
-::selection {
-    background: #00f5ff;
-    color: #000000;
+.glass-input:disabled {
+    opacity: 0.6;
 }
+
+.glass-input[type="date"] {
+    color-scheme: inherit;
+}
+
+.glass-input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+}
+
+.light input,
+.light textarea,
+.light select {
+    color-scheme: light;
+}
+
+.dark input,
+.dark textarea,
+.dark select {
+    color-scheme: dark;
+}
+
+/* ==================================================
+   LIGHT THEME — EXISTING JSX COMPATIBILITY
+   Your App.jsx uses hardcoded dark Tailwind classes.
+   These rules adapt them to light mode.
+   ================================================== */
+
+.light #root {
+    color: var(--text-primary);
+}
+
+.light .bg-black {
+    background-color: var(--page-bg);
+}
+
+.light .bg-black\/90 {
+    background-color: var(--sidebar-bg);
+}
+
+.light .bg-black\/75 {
+    background-color: var(--header-bg);
+}
+
+.light .bg-black\/30 {
+    background-color: rgba(255, 255, 255, 0.28);
+}
+
+.dark .bg-black\/90 {
+    background-color: var(--sidebar-bg);
+}
+
+.dark .bg-black\/75 {
+    background-color: var(--header-bg);
+}
+
+.dark .liquid-glass .bg-black\/30 {
+    background-color: rgba(0, 0, 0, 0.20);
+}
+
+/* Primary text */
+
+.light .text-white,
+.light .text-\[\#C3D7DA\],
+.light .text-\[\#C1E4E8\],
+.light .text-\[\#B8D4D8\],
+.light .text-\[\#B5D0D4\] {
+    color: var(--text-primary);
+}
+
+/* Secondary text */
+
+.light .text-\[\#8BA9AE\],
+.light .text-\[\#8AA5AA\],
+.light .text-\[\#89A9AE\],
+.light .text-\[\#85A6AC\],
+.light .text-\[\#86A9AE\],
+.light .text-\[\#8FB3B8\],
+.light .text-\[\#8EB4BA\],
+.light .text-\[\#8EB6BB\],
+.light .text-\[\#8AB3B9\],
+.light .text-\[\#84A9AE\],
+.light .text-\[\#A0C0C5\],
+.light .text-\[\#9ED3D8\],
+.light .text-\[\#A6D8DD\] {
+    color: var(--text-secondary);
+}
+
+/* Muted text */
+
+.light .text-\[\#779FA5\],
+.light .text-\[\#789CA2\],
+.light .text-\[\#78969B\],
+.light .text-\[\#73979D\],
+.light .text-\[\#72949A\],
+.light .text-\[\#6F9399\],
+.light .text-\[\#6F959B\],
+.light .text-\[\#6D9298\],
+.light .text-\[\#65888E\],
+.light .text-\[\#638b90\],
+.light .text-\[\#62888E\],
+.light .text-\[\#557D83\],
+.light .text-\[\#547A80\],
+.light .text-\[\#4E8189\],
+.light .text-\[\#7EA9AF\],
+.light .text-\[\#86AEB4\] {
+    color: var(--text-muted);
+}
+
+/* Accent colors */
+
+.light .text-\[\#00F5FF\] {
+    color: var(--accent);
+}
+
+.light .group:hover .group-hover\:text-\[\#00F5FF\] {
+    color: var(--accent);
+}
+
+/* Existing navigation backgrounds */
+
+.light .bg-white\/5 {
+    background-color: rgba(8, 126, 153, 0.07);
+}
+
+.light .bg-cyan-400\/5,
+.light .bg-cyan-400\/5\.5,
+.light .bg-cyan-400\/10 {
+    background-color: rgba(8, 126, 153, 0.075);
+}
+
+.light .bg-cyan-400\/\[0\.035\] {
+    background-color: rgba(8, 126, 153, 0.035);
+}
+
+.light .bg-cyan-400\/\[0\.07\] {
+    background-color: rgba(8, 126, 153, 0.07);
+}
+
+.light .hover\:bg-cyan-400\/5:hover,
+.light .hover\:bg-cyan-400\/5\.5:hover,
+.light .hover\:bg-cyan-400\/10:hover {
+    background-color: var(--surface-hover);
+}
+
+.light .hover\:text-white:hover {
+    color: var(--text-primary);
+}
+
+/* Existing borders */
+
+.light .border-cyan-400\/10,
+.light .border-cyan-400\/15,
+.light .border-cyan-400\/20,
+.light .border-cyan-400\/30,
+.light .border-cyan-400\/\[0\.07\] {
+    border-color: var(--border-subtle);
+}
+
+.light .hover\:border-cyan-400\/10:hover,
+.light .hover\:border-cyan-400\/35:hover {
+    border-color: var(--border);
+}
+
+/* Tables */
+
+.light table {
+    color: var(--text-primary);
+}
+
+.light thead {
+    background-color: var(--table-header);
+}
+
+.light tbody tr:hover {
+    background-color: var(--table-hover);
+}
+
+/* Status badges */
+
+.light .text-emerald-300 {
+    color: #047857;
+}
+
+.light .text-rose-300 {
+    color: #be123c;
+}
+
+.light .text-cyan-200 {
+    color: #0e7490;
+}
+
+/* Error messages */
+
+.light [role="alert"] {
+    color: #be123c;
+    background: rgba(244, 63, 94, 0.07);
+    border-color: rgba(244, 63, 94, 0.20);
+}
+
+/* Modal */
+
+.light [role="dialog"] {
+    color: var(--text-primary);
+}
+
+/* ==================================================
+   THEME TOGGLE
+   ================================================== */
+
+.theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    width: 42px;
+    height: 42px;
+
+    border-radius: 12px;
+    border: 1px solid var(--border);
+
+    background: var(--surface);
+    color: var(--accent);
+
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.theme-toggle:hover {
+    background: var(--surface-hover);
+    border-color: var(--accent);
+    transform: translateY(-1px);
+}
+
+.theme-toggle:active {
+    transform: translateY(0);
+}
+
+/* ==================================================
+   ANIMATED AMBIENT BACKGROUND
+   ================================================== */
+
+.pcstore-ambient {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+
+    overflow: hidden;
+    pointer-events: none;
+
+    background: var(--page-bg);
+    isolation: isolate;
+}
+
+/* Architectural grid */
+
+.pcstore-ambient-grid {
+    position: absolute;
+    inset: -15%;
+
+    background-image:
+        linear-gradient(var(--ambient-grid) 1px,
+            transparent 1px),
+        linear-gradient(90deg,
+            var(--ambient-grid) 1px,
+            transparent 1px);
+
+    background-size: 64px 64px;
+
+    mask-image: radial-gradient(ellipse at center,
+            black 48%,
+            transparent 100%);
+
+    -webkit-mask-image: radial-gradient(ellipse at center,
+            black 48%,
+            transparent 100%);
+
+    animation: pcstore-grid-drift 24s linear infinite;
+}
+
+/* Glowing orbs */
+
+.pcstore-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(65px);
+    will-change: transform;
+}
+
+.pcstore-orb-one {
+    width: min(45vw, 520px);
+    height: min(45vw, 520px);
+
+    top: -15%;
+    right: -10%;
+
+    background: var(--ambient-orb-1);
+
+    animation:
+        pcstore-orbit-one 18s ease-in-out infinite alternate;
+}
+
+.pcstore-orb-two {
+    width: min(50vw, 600px);
+    height: min(50vw, 600px);
+
+    bottom: -25%;
+    left: 5%;
+
+    background: var(--ambient-orb-2);
+
+    animation:
+        pcstore-orbit-two 9s ease-in-out infinite alternate;
+}
+
+/* Decorative concentric rings */
+
+.pcstore-ambient-ring {
+    position: absolute;
+
+    width: 480px;
+    height: 480px;
+
+    right: 8%;
+    top: 25%;
+
+    border: 1px solid var(--ambient-line);
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 80px rgba(0, 245, 255, 0.025),
+        inset 0 0 80px rgba(0, 245, 255, 0.025);
+
+    animation:
+        pcstore-ring-pulse 8s ease-in-out infinite;
+}
+
+.pcstore-ambient-ring::before,
+.pcstore-ambient-ring::after {
+    content: "";
+    position: absolute;
+
+    border: 1px solid var(--ambient-line);
+    border-radius: 50%;
+}
+
+.pcstore-ambient-ring::before {
+    inset: 65px;
+}
+
+.pcstore-ambient-ring::after {
+    inset: 130px;
+}
+
+/* ==================================================
+   AMBIENT ANIMATIONS
+   ================================================== */
+
+@keyframes pcstore-grid-drift {
+    from {
+        transform: translate3d(0, 0, 0);
+    }
+
+    to {
+        transform: translate3d(64px, 64px, 0);
+    }
+}
+
+@keyframes pcstore-orbit-one {
+    from {
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    to {
+        transform: translate3d(-18vw, 20vh, 0) scale(1.15);
+    }
+}
+
+@keyframes pcstore-orbit-two {
+    from {
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    to {
+        transform: translate3d(20vw, -16vh, 0) scale(1.2);
+    }
+}
+
+@keyframes pcstore-ring-pulse {
+
+    0%,
+    100% {
+        opacity: 0.35;
+        transform: scale(0.95);
+    }
+
+    50% {
+        opacity: 0.75;
+        transform: scale(1.06);
+    }
+}
+
+/* ==================================================
+   RESPONSIVE DESIGN
+   ================================================== */
+
+@media (max-width: 640px) {
+    .pcstore-ambient-ring {
+        right: -240px;
+        top: 30%;
+    }
+
+    .pcstore-orb {
+        filter: blur(45px);
+    }
+
+    .pcstore-ambient-grid {
+        background-size: 48px 48px;
+    }
+}
+
+/* ==================================================
+   ACCESSIBILITY — REDUCED MOTION
+   ================================================== */
 
 @media (prefers-reduced-motion: reduce) {
 
@@ -115,5 +777,12 @@ body {
         scroll-behavior: auto !important;
         transition-duration: 0.01ms !important;
         animation-duration: 0.01ms !important;
+    }
+
+    .pcstore-ambient-grid,
+    .pcstore-orb,
+    .pcstore-ambient-ring {
+        animation: none !important;
+        will-change: auto;
     }
 }
