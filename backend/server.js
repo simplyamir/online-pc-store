@@ -1,3 +1,4 @@
+import fs from "node:fs";
 import express from "express";
 import mariadb from "mariadb";
 import cors from "cors";
@@ -159,7 +160,12 @@ if (HAS_DATABASE_URL) {
 }
 
 if (process.env.DB_SSL === "true") {
+    if (!process.env.DB_SSL_CA_PATH) {
+        throw new Error("DB_SSL_CA_PATH is required when DB_SSL=true");
+    }
+
     databaseConfig.ssl = {
+        ca: fs.readFileSync(process.env.DB_SSL_CA_PATH, "utf8"),
         rejectUnauthorized: true,
     };
 }
