@@ -1,4 +1,3 @@
-
 import express from "express";
 import mariadb from "mariadb";
 import cors from "cors";
@@ -44,18 +43,29 @@ if (!Number.isInteger(PORT) || PORT < 1 || PORT > 65535) {
     throw new Error("Invalid PORT");
 }
 
-for (const name of [
-    "DB_HOST",
-    "DB_USER",
-    "DB_PASSWORD",
-    "DB_NAME",
+
+const HAS_DATABASE_URL = Boolean(process.env.JAWSDB_MARIA_URL);
+
+const requiredVariables = [
     "ADMIN_USERNAME",
     "ADMIN_PASSWORD_HASH",
-]) {
+];
+
+if (!HAS_DATABASE_URL) {
+    requiredVariables.push(
+        "DB_HOST",
+        "DB_USER",
+        "DB_PASSWORD",
+        "DB_NAME"
+    );
+}
+
+for (const name of requiredVariables) {
     if (!process.env[name]) {
         throw new Error(`Missing environment variable: ${name}`);
     }
 }
+
 
 if (!/^https?:\/\/[^/]+$/.test(CLIENT_ORIGIN)) {
     throw new Error("Invalid CLIENT_ORIGIN");
@@ -100,20 +110,62 @@ app.use(cookieParser());
 // DATABASE
 // ==================================================
 
-const pool = mariadb.createPool({
-    host: process.env.DB_HOST,
-    port: Number(process.env.DB_PORT || 3306),
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
+
+const databaseConfig = {
     connectionLimit: 5,
     acquireTimeout: 10000,
     connectTimeout: 10000,
     idleTimeout: 60,
-    ...(process.env.DB_SSL === "true"
-        ? { ssl: { rejectUnauthorized: true } }
-        : {}),
-});
+};
+
+if (HAS_DATABASE_URL) {
+    const databaseUrl = new URL(process.env.JAWSDB_MARIA_URL);
+
+    if (!["mysql:", "mariadb:"].includes(databaseUrl.protocol)) {
+        throw new Error("Unsupported database URL protocol");
+    }
+
+    databaseConfig.host = databaseUrl.hostname;
+    databaseConfig.port = databaseUrl.port
+        ? Number(databaseUrl.port)
+        : 3306;
+
+    databaseConfig.user = decodeURIComponent(
+        databaseUrl.username
+    );
+
+    databaseConfig.password = decodeURIComponent(
+        databaseUrl.password
+    );
+
+    databaseConfig.database = decodeURIComponent(
+        databaseUrl.pathname.slice(1)
+    );
+
+    if (
+        !databaseConfig.host ||
+        !databaseConfig.user ||
+        !databaseConfig.password ||
+        !databaseConfig.database
+    ) {
+        throw new Error("Incomplete JAWSDB_MARIA_URL");
+    }
+} else {
+    databaseConfig.host = process.env.DB_HOST;
+    databaseConfig.port = Number(process.env.DB_PORT || 3306);
+    databaseConfig.user = process.env.DB_USER;
+    databaseConfig.password = process.env.DB_PASSWORD;
+    databaseConfig.database = process.env.DB_NAME;
+}
+
+if (process.env.DB_SSL === "true") {
+    databaseConfig.ssl = {
+        rejectUnauthorized: true,
+    };
+}
+
+const pool = mariadb.createPool(databaseConfig);
+
 
 // ==================================================
 // TABLE CONFIGURATION
