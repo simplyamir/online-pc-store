@@ -38,10 +38,10 @@
 
     --ambient-grid: rgba(0, 245, 255, 0.075);
     --ambient-line: rgba(0, 245, 255, 0.13);
-    --ambient-orb-1: rgba(0, 245, 255, 0.24);
-    --ambient-orb-2: rgba(0, 100, 255, 0.17);
+    --ambient-orb-1: rgba(0, 245, 255, 0.16);
+    --ambient-orb-2: rgba(0, 180, 220, 0.08);
 
-    --glass-card-bg: rgba(3, 23, 33, 0.3);
+    --glass-card-bg: rgba(3, 23, 33, 0.30);
     --glass-row-bg: rgba(3, 19, 30, 0.22);
     --glass-card-border: rgba(0, 245, 255, 0.22);
     --glass-shine: rgba(255, 255, 255, 0.13);
@@ -89,8 +89,8 @@
 
     --ambient-grid: rgba(8, 126, 153, 0.11);
     --ambient-line: rgba(8, 126, 153, 0.15);
-    --ambient-orb-1: rgba(0, 180, 220, 0.20);
-    --ambient-orb-2: rgba(65, 125, 255, 0.14);
+    --ambient-orb-1: rgba(0, 180, 220, 0.12);
+    --ambient-orb-2: rgba(65, 175, 255, 0.07);
 
     --glass-card-bg: rgba(255, 255, 255, 0.38);
     --glass-row-bg: rgba(255, 255, 255, 0.27);
