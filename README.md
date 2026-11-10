@@ -1,170 +1,138 @@
-# Online PC Store
+# 🖥️ PCSTORE — Online PC Store Admin Dashboard
 
-A full-stack web application for managing an online PC hardware store, built with React, Express, and MariaDB.
+**Kompyuter do‘koni uchun ma’lumotlar bazasini boshqarish tizimi**
 
-The project currently features a modern admin dashboard for managing products, categories, customers, orders, and payments. It is designed as the foundation for a future customer-facing PC e-commerce website.
+🌐 **Live Demo:** [PCSTORE Admin Dashboard](https://simplyamir-pc-store-67cdb1a9156f.herokuapp.com)
 
-## Features
+**Mirjalol Ahmadjonov | Full-Stack Web Application**
 
-- **Admin Dashboard** — Modern dark-themed interface with cyan accents and glass-style UI elements.
-- **Product Management** — Create, view, update, and delete products.
-- **Category Management** — Organize products into categories.
-- **Customer Management** — Manage customer records.
-- **Order Management** — Track orders and their associated items.
-- **Payment Management** — Manage payment records.
-- **Admin Authentication** — Password-based login with secure, HTTP-only session cookies.
-- **Persistent Sessions** — Database-backed admin sessions.
-- **REST API** — Express backend connected to MariaDB.
-- **Responsive Interface** — Built with React and Tailwind CSS.
+---
 
-## Tech Stack
+## 🇺🇿 O‘zbekcha
 
-| Layer | Technologies |
+### 📌 Loyiha haqida
+
+**PCSTORE** — kompyuter do‘konining mahsulotlari, kategoriyalari, mijozlari, buyurtmalari va to‘lovlarini boshqarish uchun ishlab chiqilgan veb-ilova.
+
+Tizim administrator uchun mo‘ljallangan bo‘lib, ma’lumotlar bazasi bilan ishlash, yozuvlarni boshqarish va statistik ma’lumotlarni ko‘rish imkonini beradi.
+
+### ✨ Imkoniyatlar
+
+- 🔐 Xavfsiz administrator autentifikatsiyasi
+- 📦 Mahsulotlar va kategoriyalarni boshqarish
+- 👥 Mijozlar ma’lumotlarini boshqarish
+- 🛒 Buyurtmalar va to‘lovlar bilan ishlash
+- 📊 Statistik panel va SQL view'lar
+- ☁️ Bulutdagi MariaDB ma’lumotlar bazasi
+
+### 🛠️ Texnologiyalar
+
+| Qism | Texnologiyalar |
 |---|---|
-| Frontend | React 19, Vite 8, Tailwind CSS 4 |
-| Icons | Lucide React |
-| Backend | Node.js, Express 5 |
-| Database | MariaDB |
-| Authentication | Scrypt password hashing, database-backed sessions |
-| Deployment | Heroku |
-| Version Control | Git and GitHub |
+| Frontend | React, Vite, Tailwind CSS |
+| Backend | Node.js, Express |
+| Ma’lumotlar bazasi | MariaDB |
+| Hosting | Heroku, JawsDB Maria |
+| Versiya nazorati | Git, GitHub |
 
-## Project Structure
+### 🚀 Lokal ishga tushirish
 
-```text
-online-pc-store/
-├── backend/
-│   ├── server.js
-│   ├── hash-password.mjs
-│   ├── package.json
-│   └── package-lock.json
-├── public/
-├── src/
-│   ├── assets/
-│   ├── App.jsx
-│   ├── index.css
-│   └── main.jsx
-├── .gitignore
-├── index.html
-├── package.json
-├── package-lock.json
-└── vite.config.js
-```
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js
-- MariaDB
-- npm
-
-### 1. Clone the repository
+**1. Kutubxonalarni o‘rnatish**
 
 ```bash
-git clone https://github.com/simplyamir/online-pc-store.git
-cd online-pc-store
+npm ci
+npm --prefix backend ci
 ```
 
-### 2. Install dependencies
+**2. Muhit sozlamalari**
 
-Install frontend dependencies:
+`backend/.env` faylida lokal MariaDB ulanishi va administrator hisobini sozlang. Ma’lumotlar bazasi sxemasi oldindan yaratilgan bo‘lishi kerak.
 
-```bash
-npm install
-```
-
-Install backend dependencies:
+**3. Backendni ishga tushirish**
 
 ```bash
 cd backend
-npm install
-```
-
-### 3. Configure the database
-
-Create a MariaDB database named:
-
-```sql
-CREATE DATABASE online_pc_store;
-```
-
-Set up the application's required tables and configure your database connection.
-
-Create a `backend/.env` file containing the required database and admin authentication environment variables. Never commit this file to Git.
-
-### 4. Start the backend
-
-From the `backend` directory:
-
-```bash
 npm start
 ```
 
-The backend runs at:
-
-```text
-http://localhost:3001
-```
-
-### 5. Start the frontend
-
-Open another terminal in the project root:
+**4. Frontendni alohida terminalda ishga tushirish**
 
 ```bash
 npm run dev
 ```
 
-The frontend is available at:
+Frontend: `http://localhost:5173`  
+Backend API: `http://localhost:3001`
 
-```text
-http://localhost:5173
+---
+
+## 🇬🇧 English
+
+### 📌 About the Project
+
+**PCSTORE** is a full-stack web application designed to manage an online computer store's products, categories, customers, orders, and payments.
+
+It provides a protected administration dashboard for managing database records and viewing store statistics.
+
+### ✨ Features
+
+- 🔐 Secure administrator authentication
+- 📦 Product and category management
+- 👥 Customer management
+- 🛒 Order and payment management
+- 📊 Dashboard statistics and SQL views
+- ☁️ Cloud-hosted MariaDB database
+
+### 🛠️ Tech Stack
+
+| Layer | Technologies |
+|---|---|
+| Frontend | React, Vite, Tailwind CSS |
+| Backend | Node.js, Express |
+| Database | MariaDB |
+| Hosting | Heroku, JawsDB Maria |
+| Version Control | Git, GitHub |
+
+### 🚀 Local Development
+
+**1. Install dependencies**
+
+```bash
+npm ci
+npm --prefix backend ci
 ```
 
-## Available Commands
+**2. Configure the environment**
 
-| Command | Description |
-|---|---|
-| `npm run dev` | Start the Vite development server |
-| `npm run build` | Build the frontend for production |
-| `npm run preview` | Preview the frontend production build |
-| `npm run lint` | Run ESLint |
-| `npm start` | Start the Express server |
+Create `backend/.env` with your local MariaDB connection settings and administrator credentials. Ensure the database schema is initialized.
 
-## Security
+**3. Start the backend**
 
-The application includes several security measures:
+```bash
+cd backend
+npm start
+```
 
-- Scrypt-based admin password hashing
-- HTTP-only authentication cookies
-- Server-side session validation
-- Persistent sessions stored in MariaDB
-- Rate limiting
-- HTTP security headers using Helmet
-- Environment variables for sensitive configuration
+**4. Start the frontend in a separate terminal**
 
-Production deployment requires additional configuration, including HTTPS and a hosted database.
+```bash
+npm run dev
+```
 
-## Project Status
+Frontend: `http://localhost:5173`  
+Backend API: `http://localhost:3001`
 
-**In development**
+---
 
-The admin dashboard and its core management features are implemented. Deployment and a customer-facing storefront are planned.
+### 🔒 Security
 
-### Future Improvements
+- Password hashing and protected admin sessions
+- HTTPS for the deployed website
+- TLS-verified connections to the cloud database
+- Environment-based configuration for sensitive credentials
 
-- Deploy the application to Heroku
-- Build a customer-facing storefront
-- Add product browsing and search
-- Implement a shopping cart
-- Add a customer checkout experience
-- Improve inventory management
-- Expand dashboard analytics
+**Note:** This is an educational administration project. Access to the dashboard requires administrator credentials.
 
-## Author
+---
 
-Developed by [simplyamir](https://github.com/simplyamir).
-
-## License
-
-No license has been specified for this project.
+**© 2026 PCSTORE · Mirjalol Ahmadjonov**
