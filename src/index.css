@@ -158,8 +158,8 @@ button:disabled {
     border: 1px solid var(--glass-card-border);
     color: var(--text-primary);
 
-    backdrop-filter: blur(28px) saturate(170%);
     -webkit-backdrop-filter: blur(28px) saturate(170%);
+    backdrop-filter: blur(28px) saturate(170%);
 
     box-shadow:
         inset 0 1px 0 var(--glass-shine),
@@ -208,8 +208,8 @@ button:disabled {
     background: var(--glass-row-bg);
     border: 1px solid var(--border-subtle);
 
-    backdrop-filter: blur(14px) saturate(145%);
     -webkit-backdrop-filter: blur(14px) saturate(145%);
+    backdrop-filter: blur(14px) saturate(145%);
 
     transition:
         background 0.2s ease,
@@ -275,8 +275,8 @@ button:disabled {
     color: var(--text-secondary);
     border: 1px solid var(--border);
 
-    backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
 
     transition:
         background 0.2s ease,
@@ -318,8 +318,8 @@ button:disabled {
 
     outline: none;
 
-    backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
 
     transition:
         border-color 0.2s ease,
@@ -563,9 +563,9 @@ button:disabled {
     background: var(--surface);
     color: var(--accent);
 
-    backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-
+    backdrop-filter: blur(16px);
+    
     transition:
         background 0.2s ease,
         border-color 0.2s ease,
