@@ -42,3 +42,7 @@ lerna-debug.log*
 
 # Database exports
 database-schema.sql
+
+database-data.sql
+
+database-production.sql
